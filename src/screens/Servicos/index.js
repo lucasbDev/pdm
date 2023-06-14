@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react';
 import { View ,StyleSheet,Image,ActivityIndicator,TouchableOpacity,Text,Dimensions} from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import useUser from '../../api/Contexts/UsersContext';
 
 
 const { width, height } = Dimensions.get('window');
@@ -14,10 +15,13 @@ const imageHeight = height * 0.3;
 export default () => {
   const navigation = useNavigation();
 
+  const {user} = useUser();
+
   const handleLoginPress = () => {
     navigation.navigate('Agendamento');
   };
 
+  // console.log('aqui user', user)
   return (
     <View style={styles.container}>
       <Image

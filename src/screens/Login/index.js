@@ -1,8 +1,8 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ImageBackground, TouchableOpacity, Text, TextInput, Dimensions, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-
+import  useUser  from '../../api/Contexts/UsersContext'
 
 const { width, height } = Dimensions.get('window');
 const imageWidth = width * 0.8;
@@ -12,20 +12,28 @@ export default () => {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
+  const {user, addUser} = useUser()
  
   const navigation = useNavigation();
+ 
 
-  
   const handleLogin = async () => {
-    try { 
+    try {
       const response = await axios.post('https://backend-scheduling-n00p.onrender.com/login', {
         
         email,
         senha,
       });
-    
-      console.log(response.data);
-      
+
+      const cliente = response.data.cliente
+      // console.log(response.data.cliente)
+      const novoUsuario = {
+        id: cliente.id,
+        nome: cliente.nome
+      }
+      addUser(novoUsuario)
+      console.log('aqui', user)
       navigation.navigate('CPM');
       Alert.alert("Massa, agora agende as salas!");
 
@@ -44,7 +52,6 @@ export default () => {
 
 
   return (
-
     <View style={styles.container}>
       <ImageBackground
         source={{

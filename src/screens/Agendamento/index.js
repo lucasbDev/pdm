@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { View, ScrollView, TouchableOpacity, Text, StyleSheet,Alert } from 'react-native';
-//import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import axios from 'axios';
-//import useUser from '../../api/Contexts/UsersContext';
-//import { useNavigation } from '@react-navigation/native';
+import useUser from '../../api/Contexts/UsersContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -65,26 +64,15 @@ const ButtonList = () => {
 
 export default function App() {
 
+  const navigation = useNavigation();
+ 
+  
+  const {user} = useUser();
+
+  console.log("agendamento", user)
 
 
-  //const setUser = useUser(state => state.setUser);
-
-/*const handleLoginZustand= async () => {
-  try {
-    const response = await axios.get('https://backend-scheduling-n00p.onrender.com/clientes/feb5431b-7e4a-49e7-81ec-056693957d09');
-    const users = response.data;
-    setUser(users);
-    // Resto do código
-  } catch (error) {
-    console.log('Erro ao buscar os usuários:', error);
-    Alert.alert('Erro', 'Ocorreu um erro ao buscar os usuários');
-  }
-};*/
-
-
-
-  //const user = useUser(state => state.user);
-  const [clienteId, setCliente] = useState('feb5431b-7e4a-49e7-81ec-056693957d09');
+  const [clienteId, setCliente] = useState(user.id);
   const [disponibilidade, setDisponibilidade] = useState(true);
   const [data, setData] = useState('');
 
@@ -97,13 +85,16 @@ export default function App() {
 
       });
       //navigation.navigate('CPM');
+      
       console.log(response.data);
-      Alert.alert('Sucesso', 'Login realizado com sucesso');
-      navigation.navigate('Login');
-      Alert("Massa, agora volte para fazer o Login!")
+      
+      Alert.alert( 'Agendamento realizado com sucesso');
+      navigation.navigate('CPM');
+    
+    
     } catch (error) {
-      console.log('Erro ao fazer login:', error);
-      Alert.alert('Erro', 'Ocorreu um erro ao fazer login');
+      //console.log('Erro ao fazer login:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao fazer agendamento');
     }
   };
     
@@ -121,14 +112,6 @@ export default function App() {
   };
 
   
-  
-  //const navigation = useNavigation();
-  {/*const [botaoLabel,setbotaoLabel] = useState(0);*/}
-
-
-  
-
-
 
   return (
     <View style={styles.container}>
@@ -158,13 +141,7 @@ export default function App() {
       <View  style={styles.informacao}>
 
        <Text>Dia Marcado: {data}</Text>
-       {/*<Text style={styles.user}>Nome: {user.nome} </Text>*/}
-       {/*<Text>Hora Marcado: {botaolabelfunction}</Text>*/}
 
-    {/*<Text>ID: {user.id}</Text>
-    <Text>Nome: {user.nome}</Text>
-    <Text>Email: {user.email}</Text>
-    {/* Resto do código */}
   
 
       </View>
